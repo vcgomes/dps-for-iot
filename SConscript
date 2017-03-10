@@ -149,7 +149,9 @@ examplesrcs = ['examples/registry.c',
                'examples/reg_pubs.c',
                'examples/publisher.c',
                'examples/pub_many.c',
-               'examples/subscriber.c']
+               'examples/subscriber.c',
+               'examples/ocf_server.c',
+               'examples/ocf_client.c']
 
 Depends(examplesrcs, ext_libs)
 
