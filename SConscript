@@ -142,6 +142,8 @@ testenv.Install('#/build/test/bin', testprogs)
 exampleenv = env.Clone()
 exampleenv.Append(LIBS = [lib, env['UV_LIBS']])
 
+exampleenv.ParseConfig('pkg-config --cflags --libs libsystemd')
+
 examplesrcs = ['examples/registry.c',
                'examples/reg_subs.c',
                'examples/reg_pubs.c',
