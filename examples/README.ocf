@@ -1,0 +1,80 @@
+# OCF over DPS examples
+
+These examples show how the OCF protocol could be implemented over DPS.
+
+The OCF specification already mentions the concept of protocol
+bindings, but right now, only the CoAP binding is defined. This work
+demonstrate a proof-of-concept binding using the DPS protocol.
+
+## Usage
+
+This proof of concept is made of two executables, 'ocf_server' and
+'ocf_client'. 'ocf_server' implements some resources based on the OCF
+specifications and some operations. 'ocf_client' is used to operate in
+the server.
+
+### ocf_server
+
+Resources and operations (using a C-like syntax):
+
+    { .path = "/oic/d",
+      .rt = { "oic.d.light", "oic.wd.d" },
+      .ifaces = { "oic.if.r", "oic.if.baseline" },
+      .operations = retrieve,
+    },
+    { .path = "/oic/p",
+      .rt = {  "oic.wk.p" },
+      .ifaces = { "oic.if.r", "oic.if.baseline" },
+      .operations = retrieve,
+    },
+    { .path = "/light1",
+      .rt = { "oic.r.switch.binary", "oic.r.light.brightness"},
+      .ifaces = { "oic.if.a", "oic.if.baseline" },
+      .operations = retrieve, update,
+    },
+    { .path = "/light2",
+      .rt = { "oic.r.switch.binary", "oic.r.light.brightness"},
+      .ifaces = { "oic.if.a", "oic.if.baseline" },
+      .operations = retrieve, update,
+    },
+    { .path = "/light3",
+      .rt = { "oic.r.switch.binary", "oic.r.light.brightness"},
+      .ifaces = { "oic.if.a", "oic.if.baseline" },
+      .operations = retrieve, update,
+    },
+    { .path = "/light4",
+      .rt = { "oic.r.switch.binary", "oic.r.light.brightness"},
+      .ifaces = { "oic.if.a", "oic.if.baseline" },
+      .operations = retrieve, update,
+    },
+    { .path = "/counter",
+      .rt = { "my.counter"},
+      .ifaces = { "oic.if.a", "oic.if.baseline" },
+      .operations = retrieve, notify,
+    },
+
+The '/oic/res' resource is special, as it is a meta-resource.
+
+### ocf_client
+
+'ocf_client' accepts commands of the following format:
+
+   $ ocf_client <update||retrieve||notify> <topic> <path> [[key] [value]]
+
+Examples:
+
+Discovery operation:
+
+$ ocf_client retrieve /oic/endpoint/all /oic/res
+
+Retrieve operation:
+
+$ ocf_client retrieve /oic/endpoint/a22b901124154b82b15b1d21d7ba3892 /counter
+
+Update operation:
+
+$ ocf_client update /oic/endpoint/a22b901124154b82b15b1d21d7ba3892 /light3 value false
+
+Notify:
+
+$ ocf_client notify /oic/endpoint/a22b901124154b82b15b1d21d7ba3892 /counter
